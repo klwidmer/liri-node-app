@@ -31,13 +31,14 @@ function music (){
 }
 
 function socialMedia (){
-var params = {screen_name: 'nodejs'};
+var params = {screen_name: 'wids24', count: 20};
 client.get('statuses/user_timeline', params, function(error, tweets, response) {
   if (!error) {
-    console.log(tweets);
+    console.log(tweets[0].text);
   }
 });
 }
+
 switch(whichFunction){
     case "spotify-this-song":
         music();
