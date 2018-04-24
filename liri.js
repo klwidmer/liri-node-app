@@ -47,18 +47,11 @@ client.get('statuses/user_timeline', params, function(error, tweets, response) {
 });
 }
 
-function movie(){
-    
-    var movieSearch;
-	if(userQuery === undefined){
-		movieSearch = "Mr. Nobody";
-	}else{
-		movieSearch = userQuery;
-	};
-    // this is the queryURL that will be used to make the call - it holds the apikey, returns a "short" plot, type json, and 
-  
-    var queryURL = 'http://www.omdbapi.com/?t=' + movieSearch +'&3f8bad8e=trilogy&y=&plot=short&tomatoes=true&r=json';
-    request(queryURL, function(error, response, body){
+
+function movie (){
+
+request("http://www.omdbapi.com/?t=remember+the+titans&y=&plot=short&apikey=trilogy", function(error, response, body) {
+ 
 	    if(!error && response.statusCode == 200){
 	        console.log("Title: " + JSON.parse(body).Title);
 	        console.log("Year: " + JSON.parse(body).Year);
@@ -68,14 +61,23 @@ function movie(){
 	        console.log("Language: " + JSON.parse(body).Language);
 	        console.log("Plot: " + JSON.parse(body).Plot);
             console.log("Actors: " + JSON.parse(body).Actors);
-            userQuery();
-            fs.appendFile("log.txt", `Time at ${timeStamp}***\nNEW MOVIE SEARCH EVENT:\nTitle: ${JSON.parse(body).Title}\nYear: ${JSON.parse(body).Year}\nIMDB Rating: ${JSON.parse(body).imdbRating}\nRotten Tomatoes Score: ${JSON.parse(body).Ratings[1].Value}\nCountry of Production: ${JSON.parse(body).Country}\nLanguage: ${JSON.parse(body).Language}\nPlot: ${JSON.parse(body).Plot}\nActors: ${JSON.parse(body).Actors}\n------\n`, function(err) {
-            });
         }
     });
 }
+function says(){
 
-// I am unable to get anything to show up for my OMDB API request
+fs.readFile('random.txt', 'utf8', function (err,data) {
+  if (err) {
+    return console.log(err);
+  }
+  data = data.split('\n');
+console.log (data)
+});
+}
+
+
+
+// Only able to get one movie to show up
 
 switch(whichFunction){
     case "spotify-this-song":
@@ -88,7 +90,7 @@ switch(whichFunction){
         movie();
         break;
     case "do-what-it-says":
-        Says();
+        says();
         break;
 }
 
